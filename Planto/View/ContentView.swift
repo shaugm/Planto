@@ -185,7 +185,7 @@
 //        }
 //    }
 //}
-
+//
 //view
 // اضافت @stateobject عشان نقدر نتواصل ونستخدم الفيومودل
 import SwiftUI
@@ -200,23 +200,19 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.black.ignoresSafeArea()
-                
+                Color(.systemBackground).ignoresSafeArea()
                 VStack(alignment: .leading, spacing: 16) {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Text("My Plants 🌱")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.primary)
                             Spacer()
                         }
                         .padding(.horizontal)
                         
-                        // خط فاصل أفقي
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(Color.gray.opacity(0.3))
+                        Divider()
                     }
                     
                     if viewModel.hasLaunchedBefore && viewModel.plants.isEmpty {
@@ -250,8 +246,44 @@ struct ContentView: View {
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
                             
+//                            Button(action: {
+//                                viewModel.hasLaunchedBefore = true // تجاوز الشاشة الترحيبية
+//                                plantToEdit = nil
+//                                viewModel.requestNotificationPermission()
+//                                showingAddView = true
+//                            }) {
+//                                Text("Set Plant Reminder")
+//                                    .fontWeight(.semibold)
+//                                    .foregroundColor(.white)
+//                                    .padding(.horizontal, 50)
+//                                    .padding(.vertical, 8)
+//                                    .background(Color("plantoGreen"))
+//                                    .cornerRadius(25)
+//                            }
+//                            .padding(.top, 10)
+//                            Button(action: {
+//                                viewModel.hasLaunchedBefore = true
+//                                plantToEdit = nil
+//                                viewModel.requestNotificationPermission()
+//                                showingAddView = true
+//                            }) {
+//                                Text("Set Plant Reminder")
+//                                    .fontWeight(.semibold)
+//                                    .foregroundColor(.white)
+//                                    .padding(.horizontal, 40)
+//                                    .padding(.vertical, 14)
+//                                    .background(Color("plantoGreen").opacity(0.85)) // لون بلانتو الأخضر مع شفافية زجاجية خفيفة
+//                                    .background(.ultraThinMaterial)                // تأثير الـ Liquid Glass من أبل
+//                                    .environment(\.colorScheme, .dark)
+//                                    .overlay(
+//                                        RoundedRectangle(cornerRadius: 25)
+//                                            .stroke(LinearGradient(colors: [.white.opacity(0.5), .white.opacity(0.1)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1) // انعكاس الضوء على الحواف
+//                                    )
+//                                    .cornerRadius(25)
+//                                    .shadow(color: Color("plantoGreen").opacity(0.3), radius: 10, x: 0, y: 5)
+//                            }
                             Button(action: {
-                                viewModel.hasLaunchedBefore = true // تجاوز الشاشة الترحيبية
+                                viewModel.hasLaunchedBefore = true
                                 plantToEdit = nil
                                 viewModel.requestNotificationPermission()
                                 showingAddView = true
@@ -260,10 +292,23 @@ struct ContentView: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(.white)
                                     .padding(.horizontal, 50)
-                                    .padding(.vertical, 8)
-                                    .background(Color("plantoGreen"))
-                                    .cornerRadius(25)
+                                    .padding(.vertical, 9)
                             }
+                            .background(Color("plantoGreen").opacity(0.8)) // دمج لونك الأخضر مع الشفافية
+                            .background(.ultraThinMaterial)                // طبقة الزجاج السائل الخاصة بـ iOS 27
+                            .clipShape(Capsule())
+                            .overlay(
+                                Capsule()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [.white.opacity(0.6), .white.opacity(0.1)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 1
+                                    )
+                            )
+                            .shadow(color: Color("plantoGreen").opacity(0.4), radius: 10, x: 0, y: 5)
                             .padding(.top, 10)
                         }
                         Spacer(minLength: 20)
@@ -292,10 +337,10 @@ struct ContentView: View {
                     } else {
                         //4- show the plant list and the progress view
                         VStack(spacing: 8) {
-                            Text("\(viewModel.wateredCount) of your plants feel loved today ✨")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity, alignment: .center)
+                            Text(viewModel.wateredCount == 0 ? "Your plants are waiting for a sip 💦" : "\(viewModel.wateredCount) of your plants feel loved today ✨")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity, alignment: .center)
                             
                             //ProgressView
                             ProgressView(value: Double(viewModel.wateredCount), total: Double(viewModel.totalPlantsCount))
@@ -303,6 +348,7 @@ struct ContentView: View {
                                 .background(Color.gray.opacity(0.3))
                                 .scaleEffect(x: 1, y: 1.5, anchor: .center)
                                 .padding(.horizontal, 40).clipShape(Capsule())
+                                .animation(.easeInOut, value: viewModel.wateredCount)
                         }
                         .padding(.vertical, 8)
                         
@@ -339,14 +385,14 @@ struct ContentView: View {
                                         HStack(spacing: 8) {
                                             // كابسولة الإضاءة
                                             HStack(spacing: 4) {
-                                                Image(systemName: lightIcon(for: plant.light))
+                                                Image(systemName: LightType(rawValue: plant.light)?.iconName ?? "sun.max")
                                                     Text(plant.light)
                                             }
                                             .font(.caption2)
                                             .foregroundColor(Color("lightChipText"))
                                             .padding(.horizontal, 10)
                                             .padding(.vertical, 5)
-                                            .background(Color(.systemGray6).opacity(0.15))
+                                            .background(Color("lightChipText").opacity(0.15))
                                             .cornerRadius(8)
                                             
                                             // كابسولة الماء
@@ -358,7 +404,7 @@ struct ContentView: View {
                                             .foregroundColor(Color("waterChipText"))
                                             .padding(.horizontal, 10)
                                             .padding(.vertical, 5)
-                                            .background(Color(.systemGray6).opacity(0.15))
+                                            .background(Color("waterChipText").opacity(0.15))
                                             .cornerRadius(8)
                                         }
                                     }
@@ -371,7 +417,7 @@ struct ContentView: View {
                                     showingAddView = true
                                 }
                                 .padding(.vertical, 8)
-                                .listRowBackground(Color.black)
+                                .listRowBackground(Color.clear)
                                 
                             }
                             .onDelete(perform: viewModel.deletePlant)
@@ -385,6 +431,7 @@ struct ContentView: View {
                         Spacer()
                         HStack {
                             Spacer()
+                            
                             Button(action: {
                                 viewModel.hasLaunchedBefore = true
                                 plantToEdit = nil
@@ -392,14 +439,28 @@ struct ContentView: View {
                                 showingAddView = true
                             }) {
                                 Image(systemName: "plus")
-                                    .font(.title.bold())
-                                    .foregroundColor(.black)
-                                    .padding()
-                                    .background(Color("plantoGreen"))
-                                    .clipShape(Circle())
-                                    .shadow(radius: 4)
+                                    .font(.system(size: 25, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .frame(width: 56, height: 56)
                             }
+                            .background(Color("plantoGreen").opacity(0.85))
+                            .background(.ultraThinMaterial) // تأثير الزجاج السائل الدائري
+                            .clipShape(Circle())
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        LinearGradient(
+                                            colors: [.white.opacity(0.7), .white.opacity(0.15)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        ),
+                                        lineWidth: 1
+                                    )
+                            )
+                            .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            
                             .padding()
+                           
                         }
                     }
                     
@@ -408,24 +469,13 @@ struct ContentView: View {
             .sheet(isPresented: $showingAddView) {
                 AddEditPlantView(viewModel: viewModel, plantToEdit: plantToEdit)
                     .presentationDetents([.large])
-                    .presentationBackground(Color("sheetColor"))
+//                    .presentationBackground(Color("sheetColor"))
                     .presentationCornerRadius(30)
             }
-        }
+        }.preferredColorScheme(.dark)
     }
-    func lightIcon(for lightType: String) -> String {
-        switch lightType {
-        case "Full Sun":
-            return "sun.max"
-        case "Partial Sun":
-            return "sun.haze"
-        case "Low Light":
-            return "moon"
-        default:
-            return "sun.max"
-        }
-    }
+    
 }
 #Preview {
-    ContentView()
+    ContentView().preferredColorScheme(.dark)
 }
