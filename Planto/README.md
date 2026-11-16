@@ -1,6 +1,6 @@
 # 🌱 Planto
 
-<img src="Screenshots/planto-home.png" alt="Planto App" width="300">
+![Planto App](Screenshots/Planto-iOS-Dark-1024@1x.png)
 
 **Planto** is a plant care reminder app built with SwiftUI. It helps users organize their plants, keep track of their daily watering progress, and receive reminders based on each plant's watering schedule.
 
