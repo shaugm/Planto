@@ -11,6 +11,8 @@
     ],
   },
   "files": [
+    { "path": "README.md", "target-membership": [ "Planto/resources" ] },
+    { "kind": "folder", "path": "Screenshots", "target-membership": [ "Planto" ] },
     { "kind": "folder", "path": "Planto", "target-membership": [ "Planto" ] },
     {
       "kind": "group",
