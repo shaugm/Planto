@@ -71,11 +71,11 @@ struct Plant: Identifiable, Codable {
         return Calendar.current.isDateInToday(lastWateredDate)
     }
     // Defines the keys used when encoding and decoding plant data.
-    enum CodingKeys: String, CodingKey {
-        case id, name, room, light
-        case wateringDays, waterAmount
-        case lastWateredDate, isWateredToday
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case id, name, room, light
+//        case wateringDays, waterAmount
+//        case lastWateredDate, isWateredToday
+//    }
     // Initializes a plant with the provided details.
     init(
         id: UUID = UUID(),
@@ -94,34 +94,34 @@ struct Plant: Identifiable, Codable {
         self.waterAmount = waterAmount
         self.lastWateredDate = lastWateredDate
     }
-    // Decodes plant data and supports previously saved data formats.
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        id = try container.decode(UUID.self, forKey: .id)
-        name = try container.decode(String.self, forKey: .name)
-        room = try container.decode(RoomType.self, forKey: .room)
-        light = try container.decode(LightType.self, forKey: .light)
-        wateringDays = try container.decode(WateringFrequency.self, forKey: .wateringDays)
-        waterAmount = try container.decode(String.self, forKey: .waterAmount)
-        
-        if let date = try container.decodeIfPresent(Date.self, forKey: .lastWateredDate) {
-            lastWateredDate = date
-        } else {
-            let oldValue = try container.decodeIfPresent(Bool.self, forKey: .isWateredToday) ?? false
-            lastWateredDate = oldValue ? Date() : nil
-        }
-    }
-    // Encodes plant properties for persistent storage.
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-        try container.encode(room, forKey: .room)
-        try container.encode(light, forKey: .light)
-        try container.encode(wateringDays, forKey: .wateringDays)
-        try container.encode(waterAmount, forKey: .waterAmount)
-        try container.encodeIfPresent(lastWateredDate, forKey: .lastWateredDate)
-    }
+//    // Decodes plant data and supports previously saved data formats.
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        
+//        id = try container.decode(UUID.self, forKey: .id)
+//        name = try container.decode(String.self, forKey: .name)
+//        room = try container.decode(RoomType.self, forKey: .room)
+//        light = try container.decode(LightType.self, forKey: .light)
+//        wateringDays = try container.decode(WateringFrequency.self, forKey: .wateringDays)
+//        waterAmount = try container.decode(String.self, forKey: .waterAmount)
+//        
+//        if let date = try container.decodeIfPresent(Date.self, forKey: .lastWateredDate) {
+//            lastWateredDate = date
+//        } else {
+//            let oldValue = try container.decodeIfPresent(Bool.self, forKey: .isWateredToday) ?? false
+//            lastWateredDate = oldValue ? Date() : nil
+//        }
+//    }
+//    // Encodes plant properties for persistent storage.
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        
+//        try container.encode(id, forKey: .id)
+//        try container.encode(name, forKey: .name)
+//        try container.encode(room, forKey: .room)
+//        try container.encode(light, forKey: .light)
+//        try container.encode(wateringDays, forKey: .wateringDays)
+//        try container.encode(waterAmount, forKey: .waterAmount)
+//        try container.encodeIfPresent(lastWateredDate, forKey: .lastWateredDate)
+//    }
 }
