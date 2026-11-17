@@ -1,3 +1,4 @@
+<img width="1920" height="1080" alt="Planto" src="https://github.com/user-attachments/assets/5ba54285-d3a0-4146-9a59-4d81ed6652f5" />
 # 🌱 Planto
 
 
