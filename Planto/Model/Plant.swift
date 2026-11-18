@@ -4,8 +4,7 @@
 //
 //  Created by shaug alyahya on 29/05/1448 AH.
 //
-//Model
-
+//  Model
 import Foundation
 
 // Defines the available light conditions for plants.
@@ -70,29 +69,5 @@ struct Plant: Identifiable, Codable {
         
         return Calendar.current.isDateInToday(lastWateredDate)
     }
-    // Defines the keys used when encoding and decoding plant data.
-//    enum CodingKeys: String, CodingKey {
-//        case id, name, room, light
-//        case wateringDays, waterAmount
-//        case lastWateredDate, isWateredToday
-//    }
-    // Initializes a plant with the provided details.
-    init(
-        id: UUID = UUID(),
-        name: String,
-        room: RoomType,
-        light: LightType,
-        wateringDays: WateringFrequency,
-        waterAmount: String,
-        lastWateredDate: Date? = nil
-    ) {
-        self.id = id
-        self.name = name
-        self.room = room
-        self.light = light
-        self.wateringDays = wateringDays
-        self.waterAmount = waterAmount
-        self.lastWateredDate = lastWateredDate
-    }
-
+    
 }

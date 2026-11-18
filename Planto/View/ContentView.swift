@@ -1,11 +1,10 @@
-//////
-//////  ContentView.swift
-//////  Planto
-//////
-//////  Created by shaug alyahya on 29/05/1448 AH.
-//////
-
-//// View
+//
+//  ContentView.swift
+//  Planto
+//
+//  Created by shaug alyahya on 29/05/1448 AH.
+//
+//  View
 import SwiftUI
 
 struct ContentView: View {

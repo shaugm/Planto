@@ -1,13 +1,10 @@
-////////
-////////  AddEditPlantView.swift
-////////  Planto
-////////
-////////  Created by shaug alyahya on 29/05/1448 AH.
-////////
 //
-////view
+//  AddEditPlantView.swift
+//  Planto
 //
-
+//  Created by shaug alyahya on 29/05/1448 AH.
+//
+//  View
 import SwiftUI
 // Stores the values entered in the plant form.
 struct PlantFormState {
